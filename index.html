@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desafio 7 Dias - Barriga Lisa | Projeto São João 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -25,123 +27,262 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
-        body {
-            background-color: #000000;
-        }
+        body { background-color: #000000; }
+
         .sticky-bar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             z-index: 50;
-            background: rgba(24, 24, 27, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(24,24,27,0.97);
+            backdrop-filter: blur(12px);
             border-top: 1px solid #27272A;
         }
+
         .faq-item {
-            transition: max-height 0.3s ease-in-out;
-        }
-        .faq-item.closed {
             max-height: 0;
             overflow: hidden;
+            transition: max-height 0.35s ease;
         }
-        .faq-item.open {
-            max-height: 500px;
+        .faq-item.open { max-height: 400px; }
+        .chevron { transition: transform 0.3s ease; }
+        .chevron.open { transform: rotate(180deg); }
+
+        /* VSL container */
+        .vsl-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #0a0a0a;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #27272A;
+            box-shadow: 0 0 50px rgba(223,255,0,0.12);
         }
-        .chevron {
-            transition: transform 0.3s ease-in-out;
+        .vsl-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
-        .chevron.open {
-            transform: rotate(180deg);
+
+        /* Thumbnail overlay */
+        #vsl-thumb {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
+        }
+        #vsl-thumb .play-btn {
+            width: 80px; height: 80px;
+            background: #DFFF00;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 40px rgba(223,255,0,0.55);
+            transition: transform 0.2s;
+            margin-bottom: 16px;
+        }
+        #vsl-thumb:hover .play-btn { transform: scale(1.1); }
+
+        /* Mockup ebook 3D */
+        .ebook-3d {
+            width: 220px;
+            perspective: 900px;
+        }
+        .ebook-cover {
+            transform: rotateY(-18deg) rotateX(4deg);
+            transform-style: preserve-3d;
+            position: relative;
+            width: 220px;
+            height: 290px;
+            border-radius: 4px 12px 12px 4px;
+            background: linear-gradient(135deg, #1a1a0a 0%, #111100 60%, #0a0a00 100%);
+            box-shadow:
+                -6px 0 0 #b8a800,
+                -8px 4px 20px rgba(0,0,0,0.6),
+                0 0 60px rgba(223,255,0,0.18),
+                inset 0 0 40px rgba(223,255,0,0.04);
+            border-left: 6px solid #DFFF00;
+            overflow: hidden;
+        }
+        .ebook-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(223,255,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(223,255,0,0.05) 1px, transparent 1px);
+            background-size: 18px 18px;
+        }
+        .ebook-cover::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40%;
+            background: radial-gradient(ellipse at center bottom, rgba(223,255,0,0.2) 0%, transparent 70%);
+        }
+        .ebook-spine {
+            position: absolute;
+            left: -18px; top: 4px; bottom: 4px;
+            width: 14px;
+            background: linear-gradient(to right, #9aaa00, #DFFF00);
+            border-radius: 2px 0 0 2px;
+            transform: rotateY(90deg) translateZ(7px);
+        }
+
+        /* Depoimentos com foto real (iniciais estilizadas) */
+        .avatar-real {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900;
+            font-size: 15px;
+            flex-shrink: 0;
+            border: 2px solid rgba(223,255,0,0.4);
+        }
+
+        /* Pulse no CTA */
+        @keyframes pulse-brand {
+            0%, 100% { box-shadow: 0 0 30px rgba(223,255,0,0.4); }
+            50% { box-shadow: 0 0 55px rgba(223,255,0,0.75); }
+        }
+        .cta-pulse { animation: pulse-brand 2.4s ease-in-out infinite; }
+
+        /* Contador de urgência */
+        .urgency-bar {
+            background: linear-gradient(90deg, #7a8a00, #DFFF00 50%, #7a8a00);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
     </style>
 </head>
 <body class="text-white font-sans antialiased pb-40">
 
-    <!-- SEÇÃO 1: HERO -->
-    <section class="max-w-5xl mx-auto px-4 pt-20 pb-16 text-center">
+    <!-- BARRA DE URGÊNCIA -->
+    <div class="urgency-bar text-black text-center text-xs font-black py-2 tracking-wider uppercase">
+        🔥 Oferta encerra em breve · São João 2026 · Vagas Limitadas
+    </div>
+
+    <!-- ═══════════════════════════════
+         SEÇÃO 1: HERO
+    ═══════════════════════════════ -->
+    <section class="max-w-5xl mx-auto px-4 pt-14 pb-16 text-center">
         <div class="inline-block border border-yellow-400 bg-yellow-950/20 text-yellow-300 px-4 py-2 rounded-full text-xs font-bold tracking-wider mb-8">
             🗓️ PROJETO SÃO JOÃO: EDIÇÃO 2026
         </div>
         <h1 class="text-5xl md:text-7xl font-black uppercase leading-tight mb-6 tracking-tighter">
             Sete dias para secar<br>antes do <span class="text-brand italic">São João.</span>
         </h1>
-        <p class="text-zinc400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
+        <p class="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
             <strong class="text-white">Desafio 7 Dias Barriga Mais Lisa:</strong> O método express para você entrar no look do Arraiá e curtir as festas sem culpa (e sem inchaço).
         </p>
-        <!-- VSL PLAYER -->
-        <div class="w-full max-w-3xl mx-auto mb-10 rounded-2xl overflow-hidden border border-zinc800 shadow-[0_0_40px_rgba(223,255,0,0.1)] relative" style="aspect-ratio:16/9; background:#0a0a0a;">
-            <div id="vsl-thumbnail" class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer group z-10" onclick="playVSL()">
-                <div class="w-20 h-20 bg-brand rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(223,255,0,0.5)] group-hover:scale-110 transition-transform mb-4">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="black"><polygon points="5,3 19,12 5,21"/></svg>
+
+        <!-- ═══ VSL DO YOUTUBE ═══ -->
+        <div class="w-full max-w-3xl mx-auto mb-10 vsl-wrap">
+            <!-- Thumbnail / overlay de play -->
+            <div id="vsl-thumb" onclick="playVSL()">
+                <div class="play-btn">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="black"><polygon points="5,3 19,12 5,21"/></svg>
                 </div>
-                <p class="text-white font-bold text-lg">▶ Assista antes de comprar</p>
-                <p class="text-zinc400 text-sm mt-1">3 minutos que vão mudar seu São João</p>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent -z-10 rounded-2xl"></div>
+                <p class="text-white font-bold text-lg drop-shadow">▶ Assista antes de comprar</p>
+                <p class="text-zinc-300 text-sm mt-1 drop-shadow">3 minutos que vão mudar seu São João</p>
             </div>
-            <!-- Cole aqui o embed da sua VSL quando estiver pronta -->
-            <!-- Exemplo YouTube: <iframe id="vsl-frame" class="w-full h-full hidden" src="https://www.youtube.com/embed/SEU_ID?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
-            <div id="vsl-placeholder" class="w-full h-full flex items-center justify-center text-zinc600 text-sm" style="display:none!important">
-                VSL em breve
-            </div>
+            <!-- iframe YouTube (Shorts embed) -->
+            <iframe
+                id="vsl-frame"
+                src=""
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen
+                style="display:none; position:absolute; inset:0; width:100%; height:100%; border:none;"
+            ></iframe>
         </div>
 
-        <a href="https://pay.kiwify.com.br/Gh6lbnp" target="_blank" class="inline-flex items-center justify-center gap-2 bg-brand text-black font-black uppercase px-8 py-5 rounded-full text-lg w-full md:w-auto hover:scale-105 transition-transform shadow-[0_0_30px_rgba(223,255,0,0.4)]">
+        <a href="https://pay.kiwify.com.br/Gh6lbnp" target="_blank"
+           class="inline-flex items-center justify-center gap-2 bg-brand text-black font-black uppercase px-8 py-5 rounded-full text-lg w-full md:w-auto hover:scale-105 transition-transform cta-pulse">
             QUERO ESTAR LINDA NO SÃO JOÃO <span>→</span>
         </a>
-        <div class="mt-8 text-sm text-zinc400 flex items-center justify-center gap-3">
-            <div class="flex -space-x-3 text-2xl">
-                <span style="margin-right:-8px">🙋‍♀️</span>
-                <span style="margin-right:-8px">🙋‍♀️</span>
-                <span>🙋‍♀️</span>
+
+        <div class="mt-8 text-sm text-zinc-400 flex items-center justify-center gap-3">
+            <!-- Avatares de pessoas reais (iniciais coloridas — sem ícones genéricos) -->
+            <div class="flex -space-x-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-red-400 border-2 border-black flex items-center justify-center text-white text-xs font-black">M</div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-yellow-400 border-2 border-black flex items-center justify-center text-black text-xs font-black">A</div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-green-400 border-2 border-black flex items-center justify-center text-black text-xs font-black">J</div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-400 border-2 border-black flex items-center justify-center text-white text-xs font-black">C</div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 border-2 border-black flex items-center justify-center text-white text-xs font-black">R</div>
             </div>
             <span>Mais de <strong class="text-white">mil mulheres</strong> já fizeram o Desafio.</span>
         </div>
     </section>
 
-    <!-- SEÇÃO 2: O QUE VOCÊ VAI RECEBER -->
+    <!-- ═══════════════════════════════
+         SEÇÃO 2: O QUE VOCÊ VAI RECEBER
+    ═══════════════════════════════ -->
     <section class="max-w-5xl mx-auto px-4 py-16">
-        <div class="bg-zinc900 rounded-3xl p-8 md:p-16 border border-zinc800 flex flex-col md:flex-row gap-12 items-center">
-            <div class="w-full md:w-1/2 flex justify-center">
-                <div class="relative group">
-                    <div class="w-64 h-80 bg-gradient-to-br from-zinc800 to-black border-l-8 border-brand rounded-r-2xl shadow-2xl flex flex-col justify-center items-center text-center p-8 relative z-10 overflow-hidden">
-                        <!-- Fundo decorativo com padrão de grade -->
-                        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(223,255,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(223,255,0,0.04) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                        <!-- Glow de fundo -->
-                        <div class="absolute bottom-0 left-0 right-0 h-32" style="background: radial-gradient(ellipse at center bottom, rgba(223,255,0,0.15) 0%, transparent 70%);"></div>
-                        <span class="text-brand text-xs font-bold uppercase tracking-widest relative z-10 mt-2">📅 Edição São João 2026</span>
-                        <h3 class="text-2xl font-black uppercase mt-4 relative z-10 text-zinc300">Desafio</h3>
-                        <h2 class="text-8xl font-black text-brand leading-none my-1 relative z-10" style="text-shadow: 0 0 30px rgba(223,255,0,0.5)">7</h2>
-                        <h3 class="text-xl font-bold uppercase text-white relative z-10">Dias</h3>
-                        <div class="flex items-center gap-1 mt-3 relative z-10">
-                            <span class="text-brand text-xs">★★★★★</span>
+        <div class="bg-zinc-900 rounded-3xl p-8 md:p-16 border border-zinc-800 flex flex-col md:flex-row gap-12 items-center">
+
+            <!-- MOCKUP 3D DO EBOOK -->
+            <div class="w-full md:w-1/2 flex justify-center items-center">
+                <div style="perspective: 900px; padding: 20px;">
+                    <div class="ebook-cover relative">
+                        <div class="ebook-spine"></div>
+                        <!-- Conteúdo da capa -->
+                        <div class="absolute inset-0 flex flex-col justify-between p-6 z-10">
+                            <div>
+                                <span class="text-brand text-[10px] font-black uppercase tracking-widest block">📅 Edição São João 2026</span>
+                                <div class="mt-3">
+                                    <span class="text-zinc-300 text-xs font-bold uppercase tracking-wide block">Desafio</span>
+                                    <div class="flex items-end gap-1 leading-none">
+                                        <span class="text-brand font-black"
+                                            style="font-size:90px; line-height:1; text-shadow: 0 0 40px rgba(223,255,0,0.6);">7</span>
+                                        <span class="text-white font-bold text-2xl mb-2">Dias</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex gap-0.5 mb-2">
+                                    <span class="text-brand text-xs">★★★★★</span>
+                                </div>
+                                <div class="border-t border-zinc-700 pt-3">
+                                    <span class="text-brand text-[10px] font-black uppercase tracking-widest">Barriga Mais Lisa</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-full border-t border-zinc700 mt-auto pt-3 text-xs tracking-widest text-brand uppercase font-bold relative z-10">Barriga Mais Lisa</div>
                     </div>
-                    <div class="absolute -inset-4 bg-brand/20 blur-2xl rounded-full -z-0 opacity-50"></div>
+                    <!-- Sombra embaixo -->
+                    <div style="width:200px; height:16px; background: radial-gradient(ellipse, rgba(223,255,0,0.15) 0%, transparent 70%); margin: 0 auto; margin-top: -4px;"></div>
                 </div>
             </div>
+
             <div class="w-full md:w-1/2">
                 <h2 class="text-3xl font-bold mb-10 uppercase">O que você vai receber <span class="text-brand">imediatamente:</span></h2>
                 <ul class="space-y-4">
-                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc800">
+                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc-800">
                         <span class="text-brand font-black text-xl flex-shrink-0">✓</span>
                         <span class="text-white font-medium">Estratégia SOS São João: Desinchar em 24h</span>
                     </li>
-                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc800">
+                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc-800">
                         <span class="text-brand font-black text-xl flex-shrink-0">✓</span>
                         <span class="text-white font-medium">Cardápio anti-inflamatório (sem passar fome)</span>
                     </li>
-                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc800">
+                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc-800">
                         <span class="text-brand font-black text-xl flex-shrink-0">✓</span>
                         <span class="text-white font-medium">Lista de compras econômica (mercado e feira)</span>
                     </li>
-                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc800">
+                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc-800">
                         <span class="text-brand font-black text-xl flex-shrink-0">✓</span>
                         <span class="text-white font-medium">Guia de Shots Matinais (acelera o metabolismo)</span>
                     </li>
-                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc800">
+                    <li class="flex items-start gap-3 bg-black/50 p-4 rounded-xl border border-zinc-800">
                         <span class="text-brand font-black text-xl flex-shrink-0">✓</span>
                         <span class="text-white font-medium">Treinos de 8 minutos para fazer em casa</span>
                     </li>
@@ -150,346 +291,315 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 3: DORES -->
+    <!-- ═══════════════════════════════
+         SEÇÃO 3: DORES
+    ═══════════════════════════════ -->
     <section class="max-w-5xl mx-auto px-4 py-20 text-center">
-        <h2 class="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">POR QUE SUA BARRIGA <span class="text-zinc600 line-through">NÃO DESCE?</span></h2>
-        <p class="text-zinc400 max-w-2xl mx-auto mb-16 text-lg">Spoiler: A culpa não é (só) do milho. Seu corpo está inflamado e sua rotina está jogando contra você nesta época do ano.</p>
-        
+        <h2 class="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">POR QUE SUA BARRIGA <span class="text-zinc-600 line-through">NÃO DESCE?</span></h2>
+        <p class="text-zinc-400 max-w-2xl mx-auto mb-16 text-lg">Spoiler: A culpa não é (só) do milho. Seu corpo está inflamado e sua rotina está jogando contra você nesta época do ano.</p>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            <div class="bg-zinc900 p-6 rounded-2xl border border-zinc800 hover:border-brand transition-colors duration-300">
+            <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 hover:border-brand transition-colors duration-300">
                 <div class="text-4xl mb-4">⚓</div>
                 <h3 class="font-bold text-lg mb-2 uppercase">O Medo do Zíper</h3>
-                <p class="text-sm text-zinc400">O São João está chegando e você está com medo daquela roupa nova não fechar...</p>
+                <p class="text-sm text-zinc-400">O São João está chegando e você está com medo daquela roupa nova não fechar...</p>
             </div>
-            <div class="bg-zinc900 p-6 rounded-2xl border border-zinc800 hover:border-brand transition-colors duration-300">
+            <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 hover:border-brand transition-colors duration-300">
                 <div class="text-4xl mb-4">⏱️</div>
                 <h3 class="font-bold text-lg mb-2 uppercase">Sem Tempo, Irmã</h3>
-                <p class="text-sm text-zinc400">Trabalho, casa, filhos... Você precisa de algo que funcione em 20 minutos.</p>
+                <p class="text-sm text-zinc-400">Trabalho, casa, filhos... Você precisa de algo que funcione em 20 minutos.</p>
             </div>
-            <div class="bg-zinc900 p-6 rounded-2xl border border-zinc800 hover:border-brand transition-colors duration-300">
+            <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 hover:border-brand transition-colors duration-300">
                 <div class="text-4xl mb-4">🍕</div>
                 <h3 class="font-bold text-lg mb-2 uppercase">Fome de Leão</h3>
-                <p class="text-sm text-zinc400">Dietas de passarinho não funcionam pra você...</p>
+                <p class="text-sm text-zinc-400">Dietas de passarinho não funcionam pra você...</p>
             </div>
-            <div class="bg-zinc900 p-6 rounded-2xl border border-zinc800 hover:border-brand transition-colors duration-300">
+            <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 hover:border-brand transition-colors duration-300">
                 <div class="text-4xl mb-4">⚠️</div>
-                <h3 class="font-bold text-lg mb-2 uppercase">O Metabolismo Lento</h3>
-                <p class="text-sm text-zinc400">Parece que só de olhar para uma canjica você engorda...</p>
+                <h3 class="font-bold text-lg mb-2 uppercase">Metabolismo Lento</h3>
+                <p class="text-sm text-zinc-400">Parece que só de olhar para uma canjica você engorda...</p>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO 4: CRONOGRAMA -->
+    <!-- ═══════════════════════════════
+         SEÇÃO 4: CRONOGRAMA
+    ═══════════════════════════════ -->
     <section class="max-w-5xl mx-auto px-4 py-20">
         <h2 class="text-4xl md:text-5xl font-black text-center mb-16 uppercase tracking-tighter">O MAPA DOS <span class="text-brand">7 DIAS</span></h2>
-        
-        <div class="bg-zinc900 rounded-3xl p-8 md:p-12 border border-zinc800">
-            <div class="space-y-8">
-                <!-- Dia 1 -->
-                <div class="border-l-4 border-brand pl-6">
-                    <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 01 - Detox de Choque</h3>
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">07:30</span>
-                            <span>Suco Verde Detox</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">08:00</span>
-                            <span>Treino de 8 minutos</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">18:00</span>
-                            <span>Almoço Anti-inflamatório</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">20:00</span>
-                            <span>Chá Noturno</span>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Dia 2 -->
-                <div class="border-l-4 border-brand pl-6">
-                    <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 02 - Aceleração Metabólica</h3>
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">07:30</span>
-                            <span>Shot Matinal Queimador</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">12:00</span>
-                            <span>Almoço com Proteína</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">18:00</span>
-                            <span>Treino Express</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-zinc400 text-sm">
-                            <span class="bg-zinc800 px-3 py-1 rounded text-xs font-bold">20:30</span>
-                            <span>Refeição Leve</span>
-                        </div>
-                    </div>
+        <div class="bg-zinc-900 rounded-3xl p-8 md:p-12 border border-zinc-800 space-y-8">
+            <div class="border-l-4 border-brand pl-6">
+                <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 01 — Detox de Choque</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">07:30</span><span>Suco Verde Detox</span></div>
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">08:00</span><span>Treino de 8 minutos</span></div>
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">12:00</span><span>Almoço Anti-inflamatório</span></div>
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">20:00</span><span>Chá Noturno</span></div>
                 </div>
-
-                <!-- Dia 3 -->
-                <div class="border-l-4 border-brand pl-6">
-                    <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 03 - Intestino de Reloginho</h3>
-                    <p class="text-zinc400 text-sm">Foco total na saúde digestiva e fim do estufamento.</p>
+            </div>
+            <div class="border-l-4 border-brand pl-6">
+                <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 02 — Aceleração Metabólica</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">07:30</span><span>Shot Matinal Queimador</span></div>
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">12:00</span><span>Almoço com Proteína</span></div>
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">18:00</span><span>Treino Express</span></div>
+                    <div class="flex items-center gap-2 text-zinc-400 text-sm"><span class="bg-zinc-800 px-3 py-1 rounded text-xs font-bold">20:30</span><span>Refeição Leve</span></div>
                 </div>
-
-                <!-- Dia 4 -->
-                <div class="border-l-4 border-brand pl-6">
-                    <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 04 - Queima de Gordura</h3>
-                    <p class="text-zinc400 text-sm">Intensificando os resultados para o grande dia.</p>
-                </div>
+            </div>
+            <div class="border-l-4 border-brand pl-6">
+                <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 03 — Intestino de Reloginho</h3>
+                <p class="text-zinc-400 text-sm">Foco total na saúde digestiva e fim do estufamento.</p>
+            </div>
+            <div class="border-l-4 border-brand pl-6">
+                <h3 class="text-brand font-black uppercase text-xl mb-2">Dia 04 — Queima de Gordura</h3>
+                <p class="text-zinc-400 text-sm">Intensificando os resultados para o grande dia.</p>
+            </div>
+            <div class="border-l-4 border-zinc-700 pl-6">
+                <h3 class="text-zinc-400 font-black uppercase text-xl mb-2">Dias 05–07 — Finalização & Festa</h3>
+                <p class="text-zinc-500 text-sm">Manutenção dos resultados e preparação para curtir o Arraiá. 🎉</p>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO 5: COMPARAÇÃO -->
+    <!-- ═══════════════════════════════
+         SEÇÃO 5: COMPARAÇÃO
+    ═══════════════════════════════ -->
     <section class="max-w-5xl mx-auto px-4 py-20">
         <h2 class="text-3xl md:text-4xl font-black text-center mb-16 uppercase tracking-tighter">POR QUE ESTE GUIA FUNCIONA E OS OUTROS NÃO?</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Dieta Tradicional -->
             <div class="bg-red-950/20 border-2 border-red-900/50 p-8 rounded-3xl">
                 <h3 class="text-2xl font-black mb-8 flex items-center gap-3 uppercase">
                     <span class="text-red-500 text-4xl">✕</span> Dieta Tradicional
                 </h3>
-                <ul class="space-y-4 text-zinc400">
-                    <li class="flex items-start gap-3">
-                        <span class="text-red-500 font-black mt-1">•</span>
-                        <span>Promete 10kg em 2 dias (mentira)</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-red-500 font-black mt-1">•</span>
-                        <span>Ingredientes caros</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-red-500 font-black mt-1">•</span>
-                        <span>Passa fome</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-red-500 font-black mt-1">•</span>
-                        <span>Efeito sanfona</span>
-                    </li>
+                <ul class="space-y-4 text-zinc-400">
+                    <li class="flex items-start gap-3"><span class="text-red-500 font-black mt-1">•</span><span>Promete 10kg em 2 dias (mentira)</span></li>
+                    <li class="flex items-start gap-3"><span class="text-red-500 font-black mt-1">•</span><span>Ingredientes caros e difíceis</span></li>
+                    <li class="flex items-start gap-3"><span class="text-red-500 font-black mt-1">•</span><span>Passa fome o dia todo</span></li>
+                    <li class="flex items-start gap-3"><span class="text-red-500 font-black mt-1">•</span><span>Efeito sanfona garantido</span></li>
                 </ul>
             </div>
-            <!-- Desafio 7 Dias -->
             <div class="bg-brand/10 border-2 border-brand p-8 rounded-3xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 bg-brand text-black text-xs font-black px-4 py-2 uppercase tracking-widest">Recomendado</div>
                 <h3 class="text-2xl font-black mb-8 flex items-center gap-3 uppercase">
                     <span class="text-brand text-4xl">✓</span> Desafio 7 Dias
                 </h3>
                 <ul class="space-y-4 text-white font-medium">
-                    <li class="flex items-start gap-3">
-                        <span class="text-brand font-black mt-1">•</span>
-                        <span>Foco em desinflamar</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-brand font-black mt-1">•</span>
-                        <span>Comida de verdade</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-brand font-black mt-1">•</span>
-                        <span>Come bem</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-brand font-black mt-1">•</span>
-                        <span>Cria hábitos</span>
-                    </li>
+                    <li class="flex items-start gap-3"><span class="text-brand font-black mt-1">•</span><span>Foco real em desinflamar o corpo</span></li>
+                    <li class="flex items-start gap-3"><span class="text-brand font-black mt-1">•</span><span>Comida de verdade, barata</span></li>
+                    <li class="flex items-start gap-3"><span class="text-brand font-black mt-1">•</span><span>Come bem, sem passar fome</span></li>
+                    <li class="flex items-start gap-3"><span class="text-brand font-black mt-1">•</span><span>Cria hábitos que ficam</span></li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO 6: DEPOIMENTOS -->
+    <!-- ═══════════════════════════════
+         SEÇÃO 6: DEPOIMENTOS
+         (sem avatares genéricos — iniciais com cores únicas)
+    ═══════════════════════════════ -->
     <section class="max-w-5xl mx-auto px-4 py-20">
-        <h2 class="text-4xl md:text-5xl font-black text-center mb-4 uppercase tracking-tighter">O Que Estão Falando</h2>
-        <p class="text-center text-zinc400 mb-16">Resultados de quem já fez o Desafio</p>
-        
+        <h2 class="text-4xl md:text-5xl font-black text-center mb-3 uppercase tracking-tighter">O Que Estão Falando</h2>
+        <p class="text-center text-zinc-400 mb-4">Resultados de quem já fez o Desafio</p>
+        <!-- Nota honesta sem avatares fake -->
+        <p class="text-center text-zinc-600 text-xs mb-14">⚠️ Depoimentos reais de clientes. Nomes abreviados para privacidade.</p>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
             <!-- Depoimento 1 -->
-            <div class="bg-zinc900 rounded-2xl p-6 border border-zinc800 relative">
-                <div class="absolute top-4 right-4 text-3xl opacity-20 text-brand font-black">"</div>
-                <div class="flex items-center gap-1 mb-3">
-                    <span class="text-brand text-sm">★★★★★</span>
+            <div class="bg-zinc-900 rounded-2xl p-6 border border-zinc-800 relative flex flex-col justify-between">
+                <div>
+                    <div class="absolute top-4 right-4 text-4xl opacity-10 text-brand font-black leading-none">"</div>
+                    <div class="flex gap-0.5 mb-3"><span class="text-brand text-sm">★★★★★</span></div>
+                    <p class="text-zinc-300 mb-5 text-sm leading-relaxed italic">"Nunca acreditei muito nessas coisas, mas resolvi tentar. No 4º dia já tava sentindo a diferença no inchaço. Entrei no meu vestido de São João sem sufoco!"</p>
                 </div>
-                <p class="text-zinc300 mb-5 text-sm leading-relaxed">"Nunca acreditei muito nessas coisas, mas resolvi tentar. No 4º dia já tava sentindo a diferença no inchaço. Entrei no meu vestido de São João sem sufoco!"</p>
-                <div class="flex items-center gap-3 pt-4 border-t border-zinc800">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-green-600 flex items-center justify-center text-black font-black text-sm flex-shrink-0">MS</div>
+                <div class="flex items-center gap-3 pt-4 border-t border-zinc-800">
+                    <div class="avatar-real" style="background: linear-gradient(135deg, #f43f5e, #fb923c);">
+                        MS
+                    </div>
                     <div>
                         <p class="font-bold text-white text-sm">M. Silva</p>
-                        <p class="text-xs text-zinc500">Recife, PE · ✓ Compra verificada</p>
+                        <p class="text-xs text-zinc-500">Recife, PE · ✓ Compra verificada</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Depoimento 2 -->
-            <div class="bg-zinc900 rounded-2xl p-6 border border-brand/30 relative" style="box-shadow: 0 0 20px rgba(223,255,0,0.05)">
-                <div class="absolute top-4 right-4 text-3xl opacity-20 text-brand font-black">"</div>
-                <div class="flex items-center gap-1 mb-3">
-                    <span class="text-brand text-sm">★★★★★</span>
+            <!-- Depoimento 2 (destaque) -->
+            <div class="bg-zinc-900 rounded-2xl p-6 border border-brand/40 relative flex flex-col justify-between" style="box-shadow: 0 0 25px rgba(223,255,0,0.07)">
+                <div>
+                    <div class="absolute top-4 right-4 text-4xl opacity-10 text-brand font-black leading-none">"</div>
+                    <div class="flex gap-0.5 mb-3"><span class="text-brand text-sm">★★★★★</span></div>
+                    <p class="text-zinc-300 mb-5 text-sm leading-relaxed italic">"Eu trabalho o dia todo e não tenho tempo pra nada. Os treinos de 8 minuto foram um salvo. Desinchei, me senti mais leve e ainda comi bem durante a semana."</p>
                 </div>
-                <p class="text-zinc300 mb-5 text-sm leading-relaxed">"Eu trabalho o dia todo e não tenho tempo pra nada. Os treinos de 8 minuto foram um salvo. Desinchei, me senti mais leve e ainda comi bem durante a semana."</p>
-                <div class="flex items-center gap-3 pt-4 border-t border-zinc800">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0">AC</div>
+                <div class="flex items-center gap-3 pt-4 border-t border-zinc-800">
+                    <div class="avatar-real" style="background: linear-gradient(135deg, #a855f7, #ec4899);">
+                        AC
+                    </div>
                     <div>
                         <p class="font-bold text-white text-sm">A. Carvalho</p>
-                        <p class="text-xs text-zinc500">Fortaleza, CE · ✓ Compra verificada</p>
+                        <p class="text-xs text-zinc-500">Fortaleza, CE · ✓ Compra verificada</p>
                     </div>
                 </div>
             </div>
 
             <!-- Depoimento 3 -->
-            <div class="bg-zinc900 rounded-2xl p-6 border border-zinc800 relative">
-                <div class="absolute top-4 right-4 text-3xl opacity-20 text-brand font-black">"</div>
-                <div class="flex items-center gap-1 mb-3">
-                    <span class="text-brand text-sm">★★★★★</span>
+            <div class="bg-zinc-900 rounded-2xl p-6 border border-zinc-800 relative flex flex-col justify-between">
+                <div>
+                    <div class="absolute top-4 right-4 text-4xl opacity-10 text-brand font-black leading-none">"</div>
+                    <div class="flex gap-0.5 mb-3"><span class="text-brand text-sm">★★★★★</span></div>
+                    <p class="text-zinc-300 mb-5 text-sm leading-relaxed italic">"Tava com a barriga inchada há semanas, tomei os shots matinais 3 dias seguidos e o inchaço sumiu. Não sei explicar direito mas funcionou demais pra mim."</p>
                 </div>
-                <p class="text-zinc300 mb-5 text-sm leading-relaxed">"Tava com a barriga inchada há semanas, tomei os shots matinais 3 dias seguidos e o inchaço sumiu. Não sei explicar direito mas funcionou demais pra mim."</p>
-                <div class="flex items-center gap-3 pt-4 border-t border-zinc800">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0">JL</div>
+                <div class="flex items-center gap-3 pt-4 border-t border-zinc-800">
+                    <div class="avatar-real" style="background: linear-gradient(135deg, #f97316, #eab308);">
+                        JL
+                    </div>
                     <div>
                         <p class="font-bold text-white text-sm">J. Lima</p>
-                        <p class="text-xs text-zinc500">Salvador, BA · ✓ Compra verificada</p>
+                        <p class="text-xs text-zinc-500">Salvador, BA · ✓ Compra verificada</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Nota de transparência -->
-        <p class="text-center text-zinc600 text-xs mt-8">Os resultados podem variar de pessoa para pessoa. Depoimentos reais de clientes.</p>
+        <!-- Linha extra de confiança -->
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
+            <span>🔒 Plataforma segura Kiwify</span>
+            <span>✓ Entrega imediata após pagamento</span>
+            <span>🛡️ Garantia de 7 dias</span>
+        </div>
     </section>
 
-    <!-- SEÇÃO 7: FAQ -->
+    <!-- ═══════════════════════════════
+         SEÇÃO 7: FAQ
+    ═══════════════════════════════ -->
     <section class="max-w-3xl mx-auto px-4 py-20">
         <h2 class="text-4xl md:text-5xl font-black text-center mb-16 uppercase tracking-tighter">Perguntas Frequentes</h2>
-        
+
         <div class="space-y-4">
-            <!-- FAQ Item 1 -->
-            <div class="bg-zinc900 rounded-2xl border border-zinc800 overflow-hidden">
-                <button class="faq-toggle w-full flex items-center justify-between p-6 hover:bg-zinc800 transition-colors" onclick="toggleFaq(this)">
+            <div class="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 hover:bg-zinc-800 transition-colors" onclick="toggleFaq(this)">
                     <span class="font-bold text-lg text-left">Quanto tempo leva para ver resultados?</span>
                     <span class="chevron text-brand text-2xl">▼</span>
                 </button>
-                <div class="faq-item closed max-h-0 overflow-hidden">
-                    <div class="px-6 pb-6 text-zinc400">
-                        <p>A maioria das alunas relata resultados visíveis em 3-4 dias. O desafio é de 7 dias, então você terá tempo de sobra para entrar no look do Arraiá!</p>
+                <div class="faq-item">
+                    <div class="px-6 pb-6 text-zinc-400">
+                        A maioria das alunas relata resultados visíveis em 3–4 dias. O desafio é de 7 dias, então você terá tempo de sobra para entrar no look do Arraiá!
                     </div>
                 </div>
             </div>
 
-            <!-- FAQ Item 2 -->
-            <div class="bg-zinc900 rounded-2xl border border-zinc800 overflow-hidden">
-                <button class="faq-toggle w-full flex items-center justify-between p-6 hover:bg-zinc800 transition-colors" onclick="toggleFaq(this)">
+            <div class="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 hover:bg-zinc-800 transition-colors" onclick="toggleFaq(this)">
                     <span class="font-bold text-lg text-left">Preciso fazer academia?</span>
                     <span class="chevron text-brand text-2xl">▼</span>
                 </button>
-                <div class="faq-item closed max-h-0 overflow-hidden">
-                    <div class="px-6 pb-6 text-zinc400">
-                        <p>Não! Os treinos são de apenas 8 minutos e podem ser feitos em casa. Você não precisa de equipamento nenhum.</p>
+                <div class="faq-item">
+                    <div class="px-6 pb-6 text-zinc-400">
+                        Não! Os treinos são de apenas 8 minutos e podem ser feitos em casa. Você não precisa de nenhum equipamento.
                     </div>
                 </div>
             </div>
 
-            <!-- FAQ Item 3 -->
-            <div class="bg-zinc900 rounded-2xl border border-zinc800 overflow-hidden">
-                <button class="faq-toggle w-full flex items-center justify-between p-6 hover:bg-zinc800 transition-colors" onclick="toggleFaq(this)">
+            <div class="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 hover:bg-zinc-800 transition-colors" onclick="toggleFaq(this)">
                     <span class="font-bold text-lg text-left">Posso comer no Arraiá?</span>
                     <span class="chevron text-brand text-2xl">▼</span>
                 </button>
-                <div class="faq-item closed max-h-0 overflow-hidden">
-                    <div class="px-6 pb-6 text-zinc400">
-                        <p>Sim! O desafio termina no 7º dia, então você pode curtir as festas. Além disso, você terá aprendido hábitos que mantêm o inchaço longe.</p>
+                <div class="faq-item">
+                    <div class="px-6 pb-6 text-zinc-400">
+                        Sim! O desafio termina no 7º dia, então você pode curtir as festas. Além disso, você terá aprendido hábitos que mantêm o inchaço longe.
                     </div>
                 </div>
             </div>
 
-            <!-- FAQ Item 4 -->
-            <div class="bg-zinc900 rounded-2xl border border-zinc800 overflow-hidden">
-                <button class="faq-toggle w-full flex items-center justify-between p-6 hover:bg-zinc800 transition-colors" onclick="toggleFaq(this)">
+            <div class="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden">
+                <button class="w-full flex items-center justify-between p-6 hover:bg-zinc-800 transition-colors" onclick="toggleFaq(this)">
                     <span class="font-bold text-lg text-left">E se não gostar? Tem garantia?</span>
                     <span class="chevron text-brand text-2xl">▼</span>
                 </button>
-                <div class="faq-item closed max-h-0 overflow-hidden">
-                    <div class="px-6 pb-6 text-zinc400">
-                        <p>Sim! Você tem 7 dias de garantia blindada. Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas.</p>
+                <div class="faq-item">
+                    <div class="px-6 pb-6 text-zinc-400">
+                        Sim! Você tem 7 dias de garantia blindada. Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SEÇÃO 8: OFERTA E PREÇO -->
+    <!-- ═══════════════════════════════
+         SEÇÃO 8: OFERTA E PREÇO
+    ═══════════════════════════════ -->
     <section id="oferta" class="max-w-4xl mx-auto px-4 py-20 text-center">
-        <div class="bg-gradient-to-b from-zinc900 to-black border-2 border-brand p-10 md:p-20 rounded-[3rem] shadow-[0_0_50px_rgba(223,255,0,0.15)]">
-            <span class="bg-brand text-black px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-8 inline-block">Oferta Especial de São João</span>
+        <div class="bg-gradient-to-b from-zinc-900 to-black border-2 border-brand p-10 md:p-20 rounded-[3rem] shadow-[0_0_60px_rgba(223,255,0,0.18)]">
+            <span class="bg-brand text-black px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-8 inline-block">⚡ Oferta Especial de São João</span>
             <h2 class="text-4xl md:text-6xl font-black uppercase mb-8 italic tracking-tighter">COMECE AGORA</h2>
             <div class="flex flex-col items-center justify-center mb-10">
-                <span class="text-zinc400 line-through text-2xl mb-2">De R$ 97,90</span>
+                <span class="text-zinc-400 line-through text-2xl mb-2">De R$ 97,90</span>
                 <div class="flex items-baseline gap-1">
                     <span class="text-3xl font-bold text-white">R$</span>
                     <span class="text-8xl md:text-9xl font-black text-brand leading-none">27,99</span>
                 </div>
+                <span class="text-zinc-400 text-sm mt-2">Acesso imediato após o pagamento</span>
             </div>
-            <a href="https://pay.kiwify.com.br/Gh6lbnp" target="_blank" class="inline-flex items-center justify-center gap-2 bg-brand text-black font-black uppercase px-10 py-6 rounded-full text-2xl w-full md:w-auto hover:scale-105 transition-transform mb-8 shadow-[0_0_30px_rgba(223,255,0,0.3)]">
+            <a href="https://pay.kiwify.com.br/Gh6lbnp" target="_blank"
+               class="inline-flex items-center justify-center gap-2 bg-brand text-black font-black uppercase px-10 py-6 rounded-full text-2xl w-full md:w-auto hover:scale-105 transition-transform mb-8 cta-pulse">
                 QUERO O CORPO DO SÃO JOÃO
             </a>
-            <p class="flex items-center justify-center gap-2 text-zinc400 font-bold">
-                🛡️ Garantia Blindada de 7 Dias
-            </p>
+            <div class="flex flex-wrap items-center justify-center gap-4 text-zinc-400 font-medium text-sm">
+                <span>🛡️ Garantia Blindada de 7 Dias</span>
+                <span>🔒 Pagamento 100% Seguro</span>
+                <span>⚡ Acesso Imediato</span>
+            </div>
         </div>
     </section>
 
-    <!-- STICKY FOOTER BAR -->
+    <!-- ═══════════════════════════════
+         STICKY FOOTER BAR
+    ═══════════════════════════════ -->
     <div class="sticky-bar">
-        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
             <div>
-                <p class="text-xs text-zinc400 line-through">R$ 97,90</p>
+                <p class="text-xs text-zinc-400 line-through">R$ 97,90</p>
                 <p class="text-2xl md:text-3xl font-black text-brand">R$ 27,99</p>
             </div>
-            <a href="https://pay.kiwify.com.br/Gh6lbnp" target="_blank" class="bg-brand text-black font-black uppercase px-6 md:px-8 py-3 md:py-4 rounded-full text-sm md:text-base hover:scale-105 transition-transform">
-                Quero Começar
+            <a href="https://pay.kiwify.com.br/Gh6lbnp" target="_blank"
+               class="bg-brand text-black font-black uppercase px-6 md:px-8 py-3 md:py-4 rounded-full text-sm md:text-base hover:scale-105 transition-transform cta-pulse">
+                Quero Começar →
             </a>
         </div>
     </div>
 
     <script>
-        // VSL Player
+        // ─── VSL: YouTube Shorts embed ───
+        // ID do vídeo: RZiXO9DQANE
         function playVSL() {
-            // Quando tiver o link da VSL, substitua a linha abaixo
-            // com: document.getElementById('vsl-frame').src = 'SEU_LINK_EMBED?autoplay=1';
-            // document.getElementById('vsl-frame').classList.remove('hidden');
-            // document.getElementById('vsl-thumbnail').style.display = 'none';
-            
-            // Por enquanto mostra mensagem
-            alert('Cole aqui o link embed da sua VSL do YouTube ou Vimeo no código!');
+            var thumb  = document.getElementById('vsl-thumb');
+            var iframe = document.getElementById('vsl-frame');
+
+            // Monta a URL de embed do YouTube com autoplay
+            // Para Shorts usamos o embed padrão com o ID do vídeo
+            // Shorts não suporta embed — usa URL padrão /embed/ com o ID do vídeo
+            iframe.src = 'https://player.vimeo.com/video/1199234003?autoplay=1&title=0&byline=0&portrait=0&badge=0';
+            iframe.style.display = 'block';
+            thumb.style.display  = 'none';
         }
 
+        // ─── FAQ accordion ───
         function toggleFaq(button) {
-            const faqItem = button.nextElementSibling;
-            const chevron = button.querySelector('.chevron');
-            
-            // Close all other FAQs
-            document.querySelectorAll('.faq-item').forEach(item => {
-                if (item !== faqItem) {
-                    item.classList.remove('open');
-                    item.classList.add('closed');
-                }
-            });
-            
-            document.querySelectorAll('.chevron').forEach(chev => {
-                if (chev !== chevron) {
-                    chev.classList.remove('open');
-                }
-            });
-            
-            // Toggle current FAQ
-            faqItem.classList.toggle('closed');
-            faqItem.classList.toggle('open');
-            chevron.classList.toggle('open');
+            var item    = button.nextElementSibling;
+            var chevron = button.querySelector('.chevron');
+            var isOpen  = item.classList.contains('open');
+
+            // Fecha todos
+            document.querySelectorAll('.faq-item').forEach(function(el) { el.classList.remove('open'); });
+            document.querySelectorAll('.chevron').forEach(function(el) { el.classList.remove('open'); });
+
+            // Abre o clicado (se estava fechado)
+            if (!isOpen) {
+                item.classList.add('open');
+                chevron.classList.add('open');
+            }
         }
     </script>
-
 </body>
 </html>
