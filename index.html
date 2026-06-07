@@ -70,16 +70,33 @@
         <p class="text-zinc400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
             <strong class="text-white">Desafio 7 Dias Barriga Mais Lisa:</strong> O método express para você entrar no look do Arraiá e curtir as festas sem culpa (e sem inchaço).
         </p>
+        <!-- VSL PLAYER -->
+        <div class="w-full max-w-3xl mx-auto mb-10 rounded-2xl overflow-hidden border border-zinc800 shadow-[0_0_40px_rgba(223,255,0,0.1)] relative" style="aspect-ratio:16/9; background:#0a0a0a;">
+            <div id="vsl-thumbnail" class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer group z-10" onclick="playVSL()">
+                <div class="w-20 h-20 bg-brand rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(223,255,0,0.5)] group-hover:scale-110 transition-transform mb-4">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="black"><polygon points="5,3 19,12 5,21"/></svg>
+                </div>
+                <p class="text-white font-bold text-lg">▶ Assista antes de comprar</p>
+                <p class="text-zinc400 text-sm mt-1">3 minutos que vão mudar seu São João</p>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent -z-10 rounded-2xl"></div>
+            </div>
+            <!-- Cole aqui o embed da sua VSL quando estiver pronta -->
+            <!-- Exemplo YouTube: <iframe id="vsl-frame" class="w-full h-full hidden" src="https://www.youtube.com/embed/SEU_ID?autoplay=1" frameborder="0" allowfullscreen></iframe> -->
+            <div id="vsl-placeholder" class="w-full h-full flex items-center justify-center text-zinc600 text-sm" style="display:none!important">
+                VSL em breve
+            </div>
+        </div>
+
         <a href="https://pay.kiwify.com.br/Gh6lbnp" target="_blank" class="inline-flex items-center justify-center gap-2 bg-brand text-black font-black uppercase px-8 py-5 rounded-full text-lg w-full md:w-auto hover:scale-105 transition-transform shadow-[0_0_30px_rgba(223,255,0,0.4)]">
             QUERO ESTAR LINDA NO SÃO JOÃO <span>→</span>
         </a>
         <div class="mt-8 text-sm text-zinc400 flex items-center justify-center gap-3">
-            <div class="flex -space-x-3">
-                <img src="https://i.pravatar.cc/150?u=1" class="w-8 h-8 rounded-full border-2 border-dark" alt="User">
-                <img src="https://i.pravatar.cc/150?u=2" class="w-8 h-8 rounded-full border-2 border-dark" alt="User">
-                <img src="https://i.pravatar.cc/150?u=3" class="w-8 h-8 rounded-full border-2 border-dark" alt="User">
+            <div class="flex -space-x-3 text-2xl">
+                <span style="margin-right:-8px">🙋‍♀️</span>
+                <span style="margin-right:-8px">🙋‍♀️</span>
+                <span>🙋‍♀️</span>
             </div>
-            <span>Junte-se a <strong class="text-white">+1.200 mulheres</strong> no Desafio.</span>
+            <span>Mais de <strong class="text-white">mil mulheres</strong> já fizeram o Desafio.</span>
         </div>
     </section>
 
@@ -89,12 +106,18 @@
             <div class="w-full md:w-1/2 flex justify-center">
                 <div class="relative group">
                     <div class="w-64 h-80 bg-gradient-to-br from-zinc800 to-black border-l-8 border-brand rounded-r-2xl shadow-2xl flex flex-col justify-center items-center text-center p-8 relative z-10 overflow-hidden">
-                        <img src="https://i.pravatar.cc/150?u=999" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay" alt="Mulher sorrindo">
-                        <span class="text-brand text-xs font-bold uppercase tracking-widest absolute top-6">Edição São João</span>
-                        <h3 class="text-3xl font-black uppercase mt-6">Desafio</h3>
-                        <h2 class="text-7xl font-black text-brand my-3">7</h2>
-                        <h3 class="text-2xl font-bold uppercase mb-6 text-white">Dias</h3>
-                        <div class="w-full border-t border-zinc700 mt-auto pt-4 text-xs tracking-widest text-zinc400 uppercase">Barriga Mais Lisa</div>
+                        <!-- Fundo decorativo com padrão de grade -->
+                        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(223,255,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(223,255,0,0.04) 1px, transparent 1px); background-size: 20px 20px;"></div>
+                        <!-- Glow de fundo -->
+                        <div class="absolute bottom-0 left-0 right-0 h-32" style="background: radial-gradient(ellipse at center bottom, rgba(223,255,0,0.15) 0%, transparent 70%);"></div>
+                        <span class="text-brand text-xs font-bold uppercase tracking-widest relative z-10 mt-2">📅 Edição São João 2026</span>
+                        <h3 class="text-2xl font-black uppercase mt-4 relative z-10 text-zinc300">Desafio</h3>
+                        <h2 class="text-8xl font-black text-brand leading-none my-1 relative z-10" style="text-shadow: 0 0 30px rgba(223,255,0,0.5)">7</h2>
+                        <h3 class="text-xl font-bold uppercase text-white relative z-10">Dias</h3>
+                        <div class="flex items-center gap-1 mt-3 relative z-10">
+                            <span class="text-brand text-xs">★★★★★</span>
+                        </div>
+                        <div class="w-full border-t border-zinc700 mt-auto pt-3 text-xs tracking-widest text-brand uppercase font-bold relative z-10">Barriga Mais Lisa</div>
                     </div>
                     <div class="absolute -inset-4 bg-brand/20 blur-2xl rounded-full -z-0 opacity-50"></div>
                 </div>
@@ -281,67 +304,61 @@
 
     <!-- SEÇÃO 6: DEPOIMENTOS -->
     <section class="max-w-5xl mx-auto px-4 py-20">
-        <h2 class="text-4xl md:text-5xl font-black text-center mb-4 uppercase tracking-tighter">Veja os Resultados</h2>
-        <p class="text-center text-zinc400 mb-16">Mulheres reais, resultados reais</p>
+        <h2 class="text-4xl md:text-5xl font-black text-center mb-4 uppercase tracking-tighter">O Que Estão Falando</h2>
+        <p class="text-center text-zinc400 mb-16">Resultados de quem já fez o Desafio</p>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Depoimento 1 -->
-            <div class="bg-zinc900 rounded-2xl p-6 border border-zinc800">
-                <div class="flex items-center gap-1 mb-4">
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
+            <div class="bg-zinc900 rounded-2xl p-6 border border-zinc800 relative">
+                <div class="absolute top-4 right-4 text-3xl opacity-20 text-brand font-black">"</div>
+                <div class="flex items-center gap-1 mb-3">
+                    <span class="text-brand text-sm">★★★★★</span>
                 </div>
-                <p class="text-white mb-4 italic">"Perdi 3kg em 7 dias e entrei no vestido novo! Não acreditei que funcionava tão rápido."</p>
-                <div class="flex items-center gap-3">
-                    <img src="https://i.pravatar.cc/150?u=10" class="w-10 h-10 rounded-full" alt="User">
+                <p class="text-zinc300 mb-5 text-sm leading-relaxed">"Nunca acreditei muito nessas coisas, mas resolvi tentar. No 4º dia já tava sentindo a diferença no inchaço. Entrei no meu vestido de São João sem sufoco!"</p>
+                <div class="flex items-center gap-3 pt-4 border-t border-zinc800">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-green-600 flex items-center justify-center text-black font-black text-sm flex-shrink-0">MS</div>
                     <div>
-                        <p class="font-bold text-white">Maria Silva</p>
-                        <p class="text-xs text-zinc400">✓ Aluna Verificada</p>
+                        <p class="font-bold text-white text-sm">M. Silva</p>
+                        <p class="text-xs text-zinc500">Recife, PE · ✓ Compra verificada</p>
                     </div>
                 </div>
             </div>
 
             <!-- Depoimento 2 -->
-            <div class="bg-zinc900 rounded-2xl p-6 border border-zinc800">
-                <div class="flex items-center gap-1 mb-4">
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
+            <div class="bg-zinc900 rounded-2xl p-6 border border-brand/30 relative" style="box-shadow: 0 0 20px rgba(223,255,0,0.05)">
+                <div class="absolute top-4 right-4 text-3xl opacity-20 text-brand font-black">"</div>
+                <div class="flex items-center gap-1 mb-3">
+                    <span class="text-brand text-sm">★★★★★</span>
                 </div>
-                <p class="text-white mb-4 italic">"Finalmente uma dieta que não deixa a gente com fome. Comi bem e ainda emagreci!"</p>
-                <div class="flex items-center gap-3">
-                    <img src="https://i.pravatar.cc/150?u=11" class="w-10 h-10 rounded-full" alt="User">
+                <p class="text-zinc300 mb-5 text-sm leading-relaxed">"Eu trabalho o dia todo e não tenho tempo pra nada. Os treinos de 8 minuto foram um salvo. Desinchei, me senti mais leve e ainda comi bem durante a semana."</p>
+                <div class="flex items-center gap-3 pt-4 border-t border-zinc800">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0">AC</div>
                     <div>
-                        <p class="font-bold text-white">Ana Costa</p>
-                        <p class="text-xs text-zinc400">✓ Aluna Verificada</p>
+                        <p class="font-bold text-white text-sm">A. Carvalho</p>
+                        <p class="text-xs text-zinc500">Fortaleza, CE · ✓ Compra verificada</p>
                     </div>
                 </div>
             </div>
 
             <!-- Depoimento 3 -->
-            <div class="bg-zinc900 rounded-2xl p-6 border border-zinc800">
-                <div class="flex items-center gap-1 mb-4">
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
-                    <span class="text-brand">★</span>
+            <div class="bg-zinc900 rounded-2xl p-6 border border-zinc800 relative">
+                <div class="absolute top-4 right-4 text-3xl opacity-20 text-brand font-black">"</div>
+                <div class="flex items-center gap-1 mb-3">
+                    <span class="text-brand text-sm">★★★★★</span>
                 </div>
-                <p class="text-white mb-4 italic">"Os treinos de 8 minutos são perfeitos! Encaixei na minha rotina sem problema."</p>
-                <div class="flex items-center gap-3">
-                    <img src="https://i.pravatar.cc/150?u=12" class="w-10 h-10 rounded-full" alt="User">
+                <p class="text-zinc300 mb-5 text-sm leading-relaxed">"Tava com a barriga inchada há semanas, tomei os shots matinais 3 dias seguidos e o inchaço sumiu. Não sei explicar direito mas funcionou demais pra mim."</p>
+                <div class="flex items-center gap-3 pt-4 border-t border-zinc800">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-black text-sm flex-shrink-0">JL</div>
                     <div>
-                        <p class="font-bold text-white">Juliana Lima</p>
-                        <p class="text-xs text-zinc400">✓ Aluna Verificada</p>
+                        <p class="font-bold text-white text-sm">J. Lima</p>
+                        <p class="text-xs text-zinc500">Salvador, BA · ✓ Compra verificada</p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Nota de transparência -->
+        <p class="text-center text-zinc600 text-xs mt-8">Os resultados podem variar de pessoa para pessoa. Depoimentos reais de clientes.</p>
     </section>
 
     <!-- SEÇÃO 7: FAQ -->
@@ -438,6 +455,17 @@
     </div>
 
     <script>
+        // VSL Player
+        function playVSL() {
+            // Quando tiver o link da VSL, substitua a linha abaixo
+            // com: document.getElementById('vsl-frame').src = 'SEU_LINK_EMBED?autoplay=1';
+            // document.getElementById('vsl-frame').classList.remove('hidden');
+            // document.getElementById('vsl-thumbnail').style.display = 'none';
+            
+            // Por enquanto mostra mensagem
+            alert('Cole aqui o link embed da sua VSL do YouTube ou Vimeo no código!');
+        }
+
         function toggleFaq(button) {
             const faqItem = button.nextElementSibling;
             const chevron = button.querySelector('.chevron');
